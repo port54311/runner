@@ -127,29 +127,24 @@ class Game():
     # Main game loop. Scrolls the background, increases speed, calls advance
     def main_loop(self):
         # scrolling background
-        thex = itertools.cycle
-        thex = 0
-        thex2 = -800
+        background_xcycle = itertools.cycle(range(0, self.game_width+1, 20))
         background = itertools.cycle([0,1,2])
         a = next(background)
         b = next(background)
         c = b # This is the background underneath "a"
         self.obstacles.append(self.create_obstacle())
         while True:
-            self.game_display.blit(img_backgrounds[a], (thex, 0))
-            self.game_display.blit(img_backgrounds[c], (thex, 500))
-            self.game_display.blit(img_backgrounds[b], (thex2, 0))
-            self.game_display.blit(img_backgrounds[a], (thex2, 500))
+            background_x = next(background_xcycle)
+            self.game_display.blit(img_backgrounds[a], (background_x, 0))
+            self.game_display.blit(img_backgrounds[c], (background_x, 500))
+            self.game_display.blit(img_backgrounds[b], (background_x-self.game_width, 0))
+            self.game_display.blit(img_backgrounds[a], (background_x-self.game_width, 500))
             self.advance()
 
             if self.speed < 30:
                 self.speed += 0.03
             
-            thex += 20
-            thex2 += 20
-            if thex >= self.game_width:
-                thex = 0
-                thex2 = -800
+            if background_x >= self.game_width:
                 c = a # Since "b" is updating, the new background underneath "a", is "b's" old background (a)
                 a = b
                 b = next(background)
