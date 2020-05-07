@@ -224,22 +224,22 @@ class Character(Rectangle):
                 self.jumping = False
                 self.running = False
                 self.sliding = False
-            elif self.falling:
-                self.y += 70
-                if self.y + 10 > self.game_height - 150:
-                    self.y = self.game_height - 150
-                    self.falling = False
-                    self.jumpCount = 10
             else:
                 self.running = False
                 self.jumping = False
                 self.jumpCount = 10
                 self.sliding = True
         else:
-            if not self.falling:
+            if not (self.falling or self.jumping):
                 self.running = True
                 self.sliding = False
-        if self.jumping:
+        if self.falling:
+            self.y += 70
+            if self.y + 10 > self.game_height - 150:
+                self.y = self.game_height - 150
+                self.falling = False
+                self.jumpCount = 10
+        elif self.jumping:
             if self.jumpCount >= -10:
                 neg = -1 if self.jumpCount < 0 else 1
                 self.y -= int((self.jumpCount **2) * 0.9 * neg)
