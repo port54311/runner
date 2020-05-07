@@ -140,7 +140,6 @@ class Game():
             self.game_display.blit(img_backgrounds[c], (thex, 500))
             self.game_display.blit(img_backgrounds[b], (thex2, 0))
             self.game_display.blit(img_backgrounds[a], (thex2, 500))
-            print(thex, thex2)
             self.advance()
 
             if self.speed < 30:
